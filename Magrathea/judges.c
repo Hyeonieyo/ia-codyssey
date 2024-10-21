@@ -3,7 +3,7 @@
 
 int main() 
 {
-    char judges_array[5][256 * 7]; 
+    char judges_array[5][256 * 7]; //<--- Json
     int judge_count = 0;
 
     char project[256];
