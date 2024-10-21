@@ -1,91 +1,81 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int main() 
-{
-    char judges_array[5][256 * 7]; //<--- Json
-    int judge_count = 0;
 
-    char project[256];
-    int pool_size, selected_members;
+int main() {
+    char judges_array[5][512]; // json
+    char projectName[100];
+    int judgeCount = 0;
 
     printf("####################################\n");
     printf("#       심사자 풀 데이터 입력       #\n");
     printf("####################################\n");
+
     printf("> 참여 프로젝트: ");
-    fgets(project, 256, stdin);
-    project[strcspn(project, "\n")] = 0;
+    scanf_s(" %[^\n]", projectName, (unsigned)sizeof(projectName));
 
-    printf("> 심사 풀 인원: ");
-    scanf("%d", &pool_size);
-    printf("> 선발 멤버 수: ");
-    scanf("%d", &selected_members);
-    getchar();
+    while (judgeCount < 5) { 
+        char name[50], gender[5], so[100], name2[100], pro[100], email[100], phone[20];
 
-    printf("++++++++++++++++++++++++++++++++++++\n");
-    printf("%d명의 심사자 정보 입력을 시작합니다.\n", pool_size);
-    printf("++++++++++++++++++++++++++++++++++++\n");
+        printf("++++++++++++++++++++++++++++++++++++\n");
+        printf("심사자 %d 정보 입력:\n", judgeCount + 1);
 
-    while (judge_count < pool_size) {
-        char name[256], gender[256], affiliation[256];
-        char position[256], expertise[256], email[256], phone[256];
+        printf("이름: ");
+        scanf(" %[^\n]", name, (unsigned)sizeof(name));
 
-        printf("*심사자 %d: ", judge_count + 1);
-        fgets(name, 256, stdin);
-        name[strcspn(name, "\n")] = 0;
+        // 체크
+        if (name[0] == '\0') continue;
 
         printf("성별: ");
-        fgets(gender, 256, stdin);
-        gender[strcspn(gender, "\n")] = 0;
+        scanf(" %[^\n]", gender, (unsigned)sizeof(gender));
+        if (gender[0] == '\0') continue;
 
         printf("소속: ");
-        fgets(affiliation, 256, stdin);
-        affiliation[strcspn(affiliation, "\n")] = 0;
+        scanf(" %[^\n]", so, (unsigned)sizeof(so));
+        if (so[0] == '\0') continue;
 
         printf("직함: ");
-        fgets(position, 256, stdin);
-        position[strcspn(position, "\n")] = 0;
+        scanf(" %[^\n]", name2, (unsigned)sizeof(name2));
+        if (name2[0] == '\0') continue;
 
-        printf("전문분야: ");
-        fgets(expertise, 256, stdin);
-        expertise[strcspn(expertise, "\n")] = 0;
+        printf("전문 분야: ");
+        scanf(" %[^\n]", pro, (unsigned)sizeof(pro));
+        if (pro[0] == '\0') continue;
 
         printf("메일: ");
-        fgets(email, 256, stdin);
-        email[strcspn(email, "\n")] = 0;
+        scanf(" %[^\n]", email, (unsigned)sizeof(email));
+        if (email[0] == '\0') continue;
 
         printf("전화: ");
-        fgets(phone, 256, stdin);
-        phone[strcspn(phone, "\n")] = 0;
+        scanf(" %[^\n]", phone, (unsigned)sizeof(phone));
+        if (phone[0] == '\0') continue;
 
-        snprintf(judges_array[judge_count], sizeof(judges_array[judge_count]), 
-                 "{\"이름\":\"%s\", \"성별\":\"%s\", \"소속\":\"%s\", \"직함\":\"%s\", \"전문분야\":\"%s\", \"메일\":\"%s\", \"전화\":\"%s\"}",
-                 name, gender, affiliation, position, expertise, email, phone);
+       
+        snprintf(judges_array[judgeCount], sizeof(judges_array[judgeCount]),
+            "이름:%s \n성별:%s \n소속:%s\n직함%s\n전문 분야:%s\n메일:%s\n전화\:%s",
+            name, gender, so, name2, pro, email, phone); //json 저장
 
-        judge_count++;
+        judgeCount++;
     }
 
     printf("++++++++++++++++++++++++++++++++++++\n");
-    printf("심사자 풀 입력이 끝났습니다.\n");
+    printf("     심사자 풀 입력이 끝났습니다.\n");
     printf("++++++++++++++++++++++++++++++++++++\n");
 
+    char m;
+    printf("  [PROJECT] 심사자 풀을 확인할까요? (Y/N): ");
+    scanf(" %c", &m);
 
-    char confirm;
-    printf("“심사자 풀을 확인할까요?” Y/N: ");
-    scanf(" %c", &confirm);
-
-    if (confirm == 'Y') {
-        printf("[PROJECT] %s\n", project);
+    if (m == 'Y') {
         printf("####################################\n");
         printf("#       심사자 풀 데이터 출력       #\n");
         printf("####################################\n");
 
-        for (int i = 0; i < judge_count; i++) {
-            printf("%s\n", judges_array[i]);
+        for (int i = 0; i < judgeCount; i++) {
+            printf("[심사자 %d]\n", i + 1);
+            printf("%s\n", judges_array[i]); //json 출력
             printf("-----------------------------------\n");
         }
-    } else {
-        printf("프로그램을 종료합니다.\n");
     }
 
     return 0;
