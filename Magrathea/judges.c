@@ -3,10 +3,9 @@
 
 int main() 
 {
-    char judges_array[5][256 * 7]; // 각 심사자 정보 저장을 위한 배열
+    char judges_array[5][256 * 7]; 
     int judge_count = 0;
 
-    // 참여 프로젝트 및 심사 풀 인원 입력
     char project[256];
     int pool_size, selected_members;
 
@@ -31,10 +30,9 @@ int main()
         char name[256], gender[256], affiliation[256];
         char position[256], expertise[256], email[256], phone[256];
 
-        // 심사자 정보 입력
         printf("*심사자 %d: ", judge_count + 1);
         fgets(name, 256, stdin);
-        name[strcspn(name, "\n")] = 0; // 개행 문자 제거
+        name[strcspn(name, "\n")] = 0;
 
         printf("성별: ");
         fgets(gender, 256, stdin);
@@ -60,7 +58,6 @@ int main()
         fgets(phone, 256, stdin);
         phone[strcspn(phone, "\n")] = 0;
 
-        // JSON 형식으로 배열에 저장
         snprintf(judges_array[judge_count], sizeof(judges_array[judge_count]), 
                  "{\"이름\":\"%s\", \"성별\":\"%s\", \"소속\":\"%s\", \"직함\":\"%s\", \"전문분야\":\"%s\", \"메일\":\"%s\", \"전화\":\"%s\"}",
                  name, gender, affiliation, position, expertise, email, phone);
@@ -72,7 +69,7 @@ int main()
     printf("심사자 풀 입력이 끝났습니다.\n");
     printf("++++++++++++++++++++++++++++++++++++\n");
 
-    // 심사자 풀 확인 여부
+
     char confirm;
     printf("“심사자 풀을 확인할까요?” Y/N: ");
     scanf(" %c", &confirm);
